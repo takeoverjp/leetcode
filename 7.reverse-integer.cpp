@@ -11,16 +11,12 @@
 class Solution {
 public:
     int reverse(int x) {
-        long long y = 0;
+        long y = 0;
         while (x) {
-            y *= 10;
-            y += x % 10;
+            y = y * 10 + x % 10;
             x /= 10;
         }
-        if (y >= INT32_MAX || y <= INT32_MIN) {
-            return 0;
-        }
-        return y;
+        return (y >= INT32_MAX || y <= INT32_MIN) ? 0 : y;
     }
 };
 // @lc code=end
