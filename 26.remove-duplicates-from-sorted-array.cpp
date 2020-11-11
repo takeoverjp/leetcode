@@ -8,26 +8,7 @@
 class Solution {
  public:
   int removeDuplicates(vector<int>& nums) {
-    int last = 0;
-    bool is_first = true;
-
-    for (auto it = nums.begin(); it != nums.end();) {
-      if (is_first) {
-        is_first = false;
-        last = *it;
-        ++it;
-        continue;
-      }
-
-      if (last == *it) {
-        it = nums.erase(it);
-        continue;
-      }
-
-      last = *it;
-      ++it;
-    }
-
+    nums.erase(unique(nums.begin(), nums.end()), nums.end());
     return nums.size();
   }
 };
