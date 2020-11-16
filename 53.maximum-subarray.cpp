@@ -15,17 +15,15 @@ class Solution {
  public:
   int maxSubArray(vector<int>& nums) {
     int len = nums.size();
-    int max = INT32_MIN;
+    int64_t global_sum_max = INT32_MIN;
+    int64_t current_sum_max = INT32_MIN;
     for (int i = 0; i < len; i++) {
-      int sum = 0;
-      for (int j = i; j < len; j++) {
-        sum += nums[j];
-        if (max < sum) {
-          max = sum;
-        }
-      }
+      current_sum_max =
+          max(static_cast<int64_t>(nums[i]), current_sum_max + nums[i]);
+      global_sum_max = max(global_sum_max, current_sum_max);
+      // std::cerr << current_sum_max << " " << global_sum_max << std::endl;
     }
-    return max;
+    return global_sum_max;
   }
 };
 // @lc code=end
