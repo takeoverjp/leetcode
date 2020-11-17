@@ -6,7 +6,8 @@
     {
       "label": "build",
       "type": "shell",
-      "command": "make",
+      "command": "g++",
+      "args": ["-g", "-Og", "-W", "-Wall", "-o", "a.out", "${file}"],
       "group": {
         "kind": "build",
         "isDefault": true
@@ -15,7 +16,7 @@
     {
       "label": "test",
       "type": "shell",
-      "command": "./20.valid-parentheses",
+      "command": "./a.out",
       "group": {
         "kind": "test",
         "isDefault": true
