@@ -29,7 +29,6 @@ class Solution {
       carry = sum / 2;
       ret.insert(ret.begin(), (sum % 2) + '0');
     }
-    cerr << "@@@" << ret << endl;
     return ret;
   }
 };
