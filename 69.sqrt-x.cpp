@@ -18,6 +18,18 @@ class Solution {
     while (1) {
       uint64_t square = (uint64_t)i * (uint64_t)i;
       if (square < (uint)x) {
+        i += 1000;
+        continue;
+      }
+      if (square == (uint)x) {
+        return i;
+      }
+      i -= 1000;
+      break;
+    }
+    while (1) {
+      uint64_t square = (uint64_t)i * (uint64_t)i;
+      if (square < (uint)x) {
         i++;
         continue;
       }
