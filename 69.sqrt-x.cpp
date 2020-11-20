@@ -13,7 +13,7 @@ using namespace std;
 // @lc code=start
 class Solution {
  public:
-  int mySqrt(int x) {
+  int mySqrtSimpleHonesty(int x) {
     int i = 0;
     while (1) {
       uint64_t square = (uint64_t)i * (uint64_t)i;
@@ -37,6 +37,15 @@ class Solution {
         return i;
       }
       return i - 1;
+    }
+  }
+  int mySqrt(int x) {
+    uint64_t i = 1;
+    while (1) {
+      if ((i * i <= x) && ((i + 1) * (i + 1) > x)) {
+        return i;
+      }
+      i = (i + x / i) / 2;
     }
   }
 };
