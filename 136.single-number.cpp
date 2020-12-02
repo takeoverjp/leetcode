@@ -14,19 +14,11 @@ using namespace std;
 class Solution {
  public:
   int singleNumber(vector<int>& nums) {
-    sort(nums.begin(), nums.end());
-    size_t len = nums.size();
-    size_t index = 0;
-    int last = nums[index++];
-    while (index < len) {
-      if (last != nums[index]) {
-        if (index % 2) {
-          break;
-        }
-      }
-      last = nums[index++];
+    int ret = 0;
+    for (const auto num : nums) {
+      ret ^= num;
     }
-    return last;
+    return ret;
   }
 };
 // @lc code=end
