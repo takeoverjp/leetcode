@@ -15,19 +15,19 @@
  */
 class Solution {
  public:
-  bool hasCycle(ListNode *head) {
-    while(head) {
-    for (const auto ptr : nodes) {
-      if (ptr == head) return true;
-    }
-    if (!head->next) return false;
-    nodes.push_back(head);
-    head = head->next;
-    }
-    return false;
-  }
+  bool hasCycle(ListNode* head) {
+    if (!head) return false;
 
- private:
-  vector<ListNode *> nodes;
+    ListNode* slow = head;
+    ListNode* fast = head->next;
+
+    while (slow != fast) {
+      if (fast == nullptr || fast->next == nullptr) return false;
+
+      slow = slow->next;
+      fast = fast->next->next;
+    }
+    return true;
+  }
 };
 // @lc code=end
