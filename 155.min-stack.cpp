@@ -14,37 +14,33 @@ using namespace std;
 class MinStack {
  public:
   /** initialize your data structure here. */
-  MinStack() {}
+  MinStack() : min_(INT32_MAX) {}
 
   void push(int x) {
-    stack_.push_back(x);
-    for (auto it = sorted_.begin(); it != sorted_.end(); ++it) {
-      if (x < *it) {
-        it = sorted_.insert(it, x);
-        return;
-      }
+    if (x <= min_) {
+      stack_.push(min_);
+      min_ = x;
     }
-    sorted_.push_back(x);
+    stack_.push(x);
   }
 
   void pop() {
-    int last = *(stack_.end() - 1);
-    stack_.pop_back();
-    for (auto it = sorted_.begin(); it != sorted_.end(); ++it) {
-      if (last == *it) {
-        sorted_.erase(it);
-        return;
-      }
+    int top = stack_.top();
+    stack_.pop();
+    if (top != min_) {
+      return;
     }
+    min_ = stack_.top();
+    stack_.pop();
   }
 
-  int top() { return *(stack_.end() - 1); }
+  int top() { return stack_.top(); }
 
-  int getMin() { return sorted_[0]; }
+  int getMin() { return min_; }
 
  private:
-  std::vector<int> stack_;
-  std::vector<int> sorted_;
+  int min_;
+  std::stack<int> stack_;
 };
 
 /**
@@ -76,6 +72,15 @@ int main() {
     assert(s.top() == -2);
     assert(s.getMin() == -2);
     s.pop();
+  }
+  {
+    MinStack s;
+    s.push(0);
+    s.push(1);
+    s.push(0);
+    assert(s.getMin() == 0);
+    s.pop();
+    assert(s.getMin() == 0);
   }
   return 0;
 }
