@@ -14,14 +14,13 @@ using namespace std;
 class Solution {
  public:
   int majorityElement(vector<int>& nums) {
-    unordered_map<int, int> count;
+    int candidate = nums[0];
+    int count = 0;
     for (int num : nums) {
-      count[num]++;
-      if (count[num] > nums.size() / 2) {
-        return num;
-      }
+      if (count == 0) candidate = num;
+      count += (candidate == num) ? 1 : -1;
     }
-    return 0;
+    return candidate;
   }
 };
 // @lc code=end
