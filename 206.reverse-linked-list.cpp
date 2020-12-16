@@ -18,19 +18,17 @@
 class Solution {
  public:
   ListNode* reverseList(ListNode* head) {
-    stack<ListNode*> st;
-    st.push(nullptr);
-    for (ListNode* node = head; node != nullptr; node = node->next) {
-      st.push(node);
+    if (!head || !(head->next)) {
+      return head;
     }
-
-    ListNode* ret = st.top();
-    st.pop();
-    ListNode* node = ret;
-    while (!st.empty()) {
-      node->next = st.top();
-      node = node->next;
-      st.pop();
+    ListNode* ret = nullptr;
+    ListNode* node = head;
+    ListNode* next = head->next;
+    while (node) {
+      next = node->next;
+      node->next = ret;
+      ret = node;
+      node = next;
     }
     return ret;
   }
