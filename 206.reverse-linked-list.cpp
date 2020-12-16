@@ -18,6 +18,24 @@
 class Solution {
  public:
   ListNode* reverseList(ListNode* head) {
+    stack<ListNode*> st;
+    st.push(nullptr);
+    for (ListNode* node = head; node != nullptr; node = node->next) {
+      st.push(node);
+    }
+
+    ListNode* ret = st.top();
+    st.pop();
+    ListNode* node = ret;
+    while (!st.empty()) {
+      node->next = st.top();
+      node = node->next;
+      st.pop();
+    }
+    return ret;
+  }
+
+  ListNode* reverseListRecursive(ListNode* head) {
     if (head == nullptr) {
       return nullptr;
     }
