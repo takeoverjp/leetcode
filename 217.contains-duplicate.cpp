@@ -13,6 +13,9 @@ using namespace std;
 // @lc code=start
 class Solution {
  public:
+  bool containsDuplicate2(vector<int>& nums) {
+    return nums.size() > set<int>(nums.begin(), nums.end()).size();
+  }
   bool containsDuplicate(vector<int>& nums) {
     unordered_map<int, bool> map;
     for (auto num : nums) {
