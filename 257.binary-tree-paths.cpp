@@ -19,23 +19,27 @@
  */
 class Solution {
  public:
+  void binaryTreePaths(vector<string>& ret, TreeNode* root, string t) {
+    if (!(root->left || root->right)) {
+      ret.push_back(t);
+      return;
+    }
+
+    if (root->left) {
+      binaryTreePaths(ret, root->left,
+                      t + "->" + to_string(root->left->val));
+    }
+    if (root->right) {
+      binaryTreePaths(ret, root->right,
+                      t + "->" + to_string(root->right->val));
+    }
+  }
   vector<string> binaryTreePaths(TreeNode* root) {
     vector<string> ret;
     if (root == nullptr) {
       return ret;
     }
-
-    if (!(root->left || root->right)) {
-        ret.push_back(to_string(root->val));
-        return ret;
-    }
-
-    for (const string& path : binaryTreePaths(root->left)) {
-      ret.push_back(to_string(root->val) + "->" + path);
-    }
-    for (const string& path : binaryTreePaths(root->right)) {
-      ret.push_back(to_string(root->val) + "->" + path);
-    }
+    binaryTreePaths(ret, root, to_string(root->val));
     return ret;
   }
 };
