@@ -8,18 +8,15 @@
 class Solution {
  public:
   void moveZeroes(vector<int>& nums) {
-    int count = 0;
-    for (auto it = nums.begin(); it != nums.end();) {
-      if (*it == 0) {
-        it = nums.erase(it);
-        count++;
-        continue;
+    int index = 0;
+    for (auto num : nums) {
+      if (num != 0) {
+        nums[index++] = num;
       }
-      it++;
     }
-
-    for (int i = 0; i < count; i++) {
-      nums.push_back(0);
+    int len = nums.size();
+    for (; index < len; index++) {
+      nums[index] = 0;
     }
   }
 };
