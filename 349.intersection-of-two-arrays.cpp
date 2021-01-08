@@ -14,11 +14,13 @@ using namespace std;
 class Solution {
  public:
   vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
-    std::set<int> numset1(nums1.begin(), nums1.end());
-    std::set<int> numset2(nums2.begin(), nums2.end());
+    std::unordered_set<int> numset1(nums1.begin(), nums1.end());
     std::vector<int> result;
-    std::set_intersection(numset1.begin(), numset1.end(), numset2.begin(),
-                          numset2.end(), std::inserter(result, result.end()));
+    for (auto num : nums2) {
+      if (numset1.erase(num)) {
+        result.push_back(num);
+      }
+    }
     return result;
   }
 };
