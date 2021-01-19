@@ -16,7 +16,7 @@
     {
       "label": "test",
       "type": "shell",
-      "command": "./a.out",
+      "command": "valgrind ./a.out",
       "group": {
         "kind": "test",
         "isDefault": true
