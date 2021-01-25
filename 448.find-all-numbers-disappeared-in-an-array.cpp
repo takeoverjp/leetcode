@@ -16,22 +16,17 @@ public:
     vector<int> findDisappearedNumbers(vector<int> &nums)
     {
         int len = nums.size();
-        if (len == 0) {
-            return {};
-        }
-        bool is_appeared[len];
         for (int i = 0; i < len; i++)
         {
-            is_appeared[i] = false;
-        }
-        for (const auto num : nums)
-        {
-            is_appeared[num - 1] = true;
+            int index = abs(nums[i]) - 1;
+            if (nums[index] > 0) {
+                nums[index] = -1 * nums[index];
+            }
         }
         vector<int> ret;
         for (int i = 0; i < len; i++)
         {
-            if (!is_appeared[i])
+            if (nums[i] > 0)
             {
                 ret.push_back(i + 1);
             }
