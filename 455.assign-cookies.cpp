@@ -13,22 +13,19 @@ using namespace std;
 class Solution {
  public:
   int findContentChildren(vector<int> &g, vector<int> &s) {
-    sort(s.begin(), s.end());
     sort(g.begin(), g.end());
-    int cookie_num = s.size();
+    sort(s.begin(), s.end());
     int child_num = g.size();
-    int ret = 0;
-    for (int i = 0; i < child_num; i++) {
-      for (int j = 0; j < cookie_num; j++) {
-        // cout << g[i] << "," << s[j] << "," << ret << endl;
-        if (g[i] <= s[j]) {
-          ret++;
-          s[j] = -1;
-          break;
-        }
+    int cookie_num = s.size();
+    int i = 0;
+    int j = 0;
+    while (i < child_num && j < cookie_num) {
+      if (g[i] <= s[j]) {
+        i++;
       }
+      j++;
     }
-    return ret;
+    return i;
   }
 };
 // @lc code=end
