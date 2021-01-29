@@ -25,12 +25,13 @@ class Solution {
           continue;
         }
  
-        string pattern = s.substr(0, sublen);
         for (int j = sublen; j < len; j += sublen) {
 
           // cout << pattern << " ? " << s.substr(j, sublen) << endl;
-          if (s.substr(j, sublen) != pattern) {
-            goto NEXT_SUBLEN;
+          for (int k = 0; k < sublen; k++) {
+            if (s[k] != s[j+k]) {
+              goto NEXT_SUBLEN;
+            }
           }
         }
 
