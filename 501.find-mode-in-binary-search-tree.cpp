@@ -19,31 +19,36 @@
 class Solution {
 public:
     vector<int> findMode(TreeNode* root) {
-        map<int, int> counts;
-        countNode(root, counts);
-        int max = 0;
-        for (const auto& it : counts) {
-            if (it.second >= max) {
-                max = it.second;
-            }
-        }
         vector<int> ret;
-        if (max == 0) {
-            return ret;
-        }
-        for (const auto& it : counts) {
-            if (it.second == max) {
-                ret.push_back(it.first);
-            }
-        }
+        traverse(root, ret);
         return ret;
     }
     private:
-    void countNode(TreeNode* root, map<int, int>& counts) {
+    int pre_cursor_ = INT_MIN;
+    int count_ = 0;
+    int max_count_ = 0;
+    void traverse(TreeNode* root, vector<int>& ret) {
         if (root == nullptr) return;
-        counts[root->val]++;
-        countNode(root->left, counts);
-        countNode(root->right, counts);
+
+        traverse(root->left, ret);
+
+        if (root->val == pre_cursor_) {
+            count_++;
+        } else {
+            count_ = 1;
+        }
+
+        if (count_ > max_count_) {
+            ret.clear();
+            max_count_ = count_;
+            ret.push_back(root->val);
+        } else if (count_ == max_count_){
+            ret.push_back(root->val);
+        }
+
+        pre_cursor_ = root->val;
+
+        traverse(root->right, ret);
     }
 };
 // @lc code=end
