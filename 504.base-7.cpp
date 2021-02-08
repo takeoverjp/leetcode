@@ -20,10 +20,8 @@ class Solution {
       num = -1 * num;
     }
     do {
-      char char7[2] = {static_cast<char>('0' + num % 7), 0};
-      ret = string(char7) + ret;
+      ret = string{static_cast<char>('0' + num % 7)} + ret;
       num /= 7;
-
     } while (num);
 
     if (is_negative) {
