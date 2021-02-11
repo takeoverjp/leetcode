@@ -18,7 +18,15 @@ class Solution {
     } else if (n == 1) {
       return 1;
     }
-    return fib(n - 1) + fib(n - 2);
+    int ppnum = 0;
+    int pnum = 1;
+    int ret = 1;
+    for (int i = 0; i < n - 1; i++) {
+        ret = pnum + ppnum;
+        ppnum = pnum;
+        pnum = ret;
+    }
+    return ret;
   }
 };
 // @lc code=end
