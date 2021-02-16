@@ -7,7 +7,7 @@
       "label": "build",
       "type": "shell",
       "command": "g++",
-      "args": ["-g", "-Og", "-W", "-Wall", "-o", "a.out", "${file}"],
+      "args": ["-g", "-std=c++14", "-Og", "-W", "-Wall", "-o", "a.out", "${file}"],
       "group": {
         "kind": "build",
         "isDefault": true
