@@ -20,22 +20,27 @@
 class Solution {
  public:
   bool isBalanced(TreeNode* root) {
+    depth(root);
+    return isBalancedInner(root);
+  }
+
+ private:
+  bool isBalancedInner(TreeNode* root) {
     if (root == nullptr) {
       return true;
     }
-
-    if (abs(depth(root->left) - depth(root->right)) > 1) {
+    if (abs((root->left ? root->left->val : 0) -
+            (root->right ? root->right->val : 0)) > 1) {
       return false;
     }
     return isBalanced(root->left) && isBalanced(root->right);
   }
-
- private:
   int depth(TreeNode* root) {
-    if (!root) {
+    if (root == nullptr) {
       return 0;
     }
-    return max(depth(root->left), depth(root->right)) + 1;
+    root->val = max(depth(root->left), depth(root->right)) + 1;
+    return root->val;
   }
 };
 // @lc code=end
