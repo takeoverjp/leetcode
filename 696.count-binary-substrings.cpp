@@ -15,38 +15,17 @@ class Solution {
   int countBinarySubstrings(string s) {
     int count = 0;
     const int len = s.length();
-    int index = 0;
-    while (index < len - 1) {
-      const int step = isHit(s, index);
-      if (!step) {
-          ++index;
-          continue;
+    int current_run_length = 1;
+    int previous_run_length = 0;
+    for (int i = 1; i < len; i++) {
+      if (s[i] == s[i-1]) {
+        ++current_run_length;
+      } else {
+        previous_run_length = current_run_length;
+        current_run_length = 1;
       }
-      index += step;
-      count += step;
-    }
-    return count;
-  }
-  int isHit(const string& s, int start) {
-    int len = s.length();
-    if (start > len - 1) {
-      return 0;
-    }
-    char first = s[start];
-    int count = 1;
-    for (int i = start + 1; i < len; i++) {
-      if (s[i] == first) {
-        count++;
-        continue;
-      }
-      break;
-    }
-    if (start + count + count > len) {
-      return 0;
-    }
-    for (int i = start + count; i < start + count + count; i++) {
-      if (s[i] == first) {
-        return 0;
+      if (previous_run_length >= current_run_length) {
+        ++count;
       }
     }
     return count;
