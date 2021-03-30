@@ -13,34 +13,25 @@ using namespace std;
 class KthLargest {
  public:
   KthLargest(int k, vector<int>& nums) : k_(k) {
-    std::sort(nums.begin(), nums.end(), [](int a, int b) { return a > b; });
-    const int size = nums.size();
-    const int last = std::min(size, k);
-    for (int i = 0; i < last; i++) {
-      nums_.push_back(nums[i]);
+    for (const int num : nums) {
+      que_.push(num);
+      if (static_cast<int>(que_.size()) > k) {
+        que_.pop();
+      }
     }
   }
 
   int add(int val) {
-    for (auto it = nums_.begin(); it != nums_.end(); it++) {
-      if (val > *it) {
-        nums_.insert(it, val);
-        int size = nums_.size();
-        if (size > k_) {
-          nums_.pop_back();
-        }
-        break;
-      }
+    que_.push(val);
+    if (static_cast<int>(que_.size()) > k_) {
+      que_.pop();
     }
-    if (nums_.size() < k_) {
-      nums_.push_back(val);
-    }
-    return nums_[k_ - 1];
+    return que_.top();
   }
 
  private:
   const int k_;
-  vector<int> nums_;
+  std::priority_queue<int, std::vector<int>, std::greater<int>> que_;
 };
 
 /**
