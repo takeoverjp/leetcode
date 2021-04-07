@@ -14,10 +14,10 @@ class Solution {
  public:
   int pivotIndex(vector<int>& nums) {
     int left = 0;
-    int right = 0;
+    int right = -1 * nums[0];
     int size = nums.size();
-    for (int i = 1; i < size; i++) {
-      right += nums[i];
+    for (auto n : nums) {
+      right += n;
     }
     if (left == right) {
       return 0;
