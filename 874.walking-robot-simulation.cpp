@@ -15,6 +15,9 @@ class Solution {
   Solution() : angle_(Angle::kNorth), x_(0), y_(0), distance_(0) {}
 
   int robotSim(vector<int>& commands, vector<vector<int>>& obstacles) {
+    for (const auto obstacle : obstacles) {
+      obs_.insert({obstacle[0], obstacle[1]});
+    }
     for (const int command : commands) {
       switch (command) {
         case -2:
@@ -24,7 +27,7 @@ class Solution {
           turnRight();
           break;
         default:
-          moveForward(command, obstacles);
+          moveForward(command);
           updateDistance();
           break;
       }
@@ -61,65 +64,43 @@ class Solution {
       angle_ = Angle::kEast;
     }
   }
-  void updateDistance() { distance_ = max(distance_, x_ * x_ + y_ * y_); }
-  void moveForward(const int len, const vector<vector<int>>& obstacles) {
-    vector<vector<int>> filtered;
+  pair<int, int> getNext() {
     if (angle_ == Angle::kEast) {
-      std::copy_if(
-          obstacles.begin(), obstacles.end(), std::back_inserter(filtered),
-          [this](const vector<int>& obstacle) { return obstacle[1] == y_; });
-      for (int i = 0; i < len; i++) {
-        if (findObstacle(x_ + 1, y_, filtered)) {
-          return;
-        }
-        ++x_;
-      }
+      return {x_ + 1, y_};
     } else if (angle_ == Angle::kSouth) {
-      std::copy_if(
-          obstacles.begin(), obstacles.end(), std::back_inserter(filtered),
-          [this](const vector<int>& obstacle) { return obstacle[0] == x_; });
-      for (int i = 0; i < len; i++) {
-        if (findObstacle(x_, y_ - 1, filtered)) {
-          return;
-        }
-        --y_;
-      }
+      return {x_, y_ - 1};
     } else if (angle_ == Angle::kWest) {
-      std::copy_if(
-          obstacles.begin(), obstacles.end(), std::back_inserter(filtered),
-          [this](const vector<int>& obstacle) { return obstacle[1] == y_; });
-      for (int i = 0; i < len; i++) {
-        if (findObstacle(x_ - 1, y_, filtered)) {
-          return;
-        }
-        --x_;
-      }
+      return {x_ - 1, y_};
     } else if (angle_ == Angle::kNorth) {
-      std::copy_if(
-          obstacles.begin(), obstacles.end(), std::back_inserter(filtered),
-          [this](const vector<int>& obstacle) { return obstacle[0] == x_; });
-      for (int i = 0; i < len; i++) {
-        if (findObstacle(x_, y_ + 1, filtered)) {
-          return;
-        }
-        ++y_;
+      return {x_, y_ + 1};
+    }
+    return {0, 0};
+  }
+  void updateDistance() { distance_ = max(distance_, x_ * x_ + y_ * y_); }
+  void moveForward(const int len) {
+    for (int i = 0; i < len; i++) {
+      const pair<int, int> next = getNext();
+      if (findObstacle(next.first, next.second)) {
+        return;
       }
+      x_ = next.first;
+      y_ = next.second;
     }
   }
-  bool findObstacle(const int x, const int y,
-                    const vector<vector<int>>& obstacles) {
-    for (const auto& obstacle : obstacles) {
-      if (obstacle[0] == x && obstacle[1] == y) {
-        return true;
-      }
-    }
-    return false;
+  bool findObstacle(const int x, const int y) {
+    return obs_.find({x, y}) != obs_.end();
   }
 
   Angle angle_;
   int x_;
   int y_;
   int distance_;
+  struct PositionHash {
+    size_t operator()(const pair<int, int>& val) const {
+      return val.first;
+    }
+  };
+  unordered_set<pair<int, int>, PositionHash> obs_;
 };
 // @lc code=end
 
