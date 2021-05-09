@@ -59,17 +59,15 @@ class Solution {
 
 int main() {
   Solution s;
-  vector<string> exp;
 
   // Example 1
-  exp = {"sour", "sweet"};
-  ASSERT_EQ(s.uncommonFromSentences("this apple is sweet",
-                                    "this apple is sour") == exp,
-            true);
+  ASSERT_EQ(
+      s.uncommonFromSentences("this apple is sweet", "this apple is sour"),
+      std::vector<string>({"sour", "sweet"}));
 
   // Example 2
-  exp = {"banana"};
-  ASSERT_EQ(s.uncommonFromSentences("apple apple", "banana") == exp, true);
+  ASSERT_EQ(s.uncommonFromSentences("apple apple", "banana"),
+            std::vector<string>({"banana"}));
 
   return 0;
 }
