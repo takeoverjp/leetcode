@@ -13,20 +13,14 @@ using namespace std;
 class Solution {
  public:
   vector<int> fairCandySwap(vector<int>& A, vector<int>& B) {
-    int totalA = 0, totalB = 0;
-    for (int size : A) {
-      totalA += size;
-    }
-    for (int size : B) {
-      totalB += size;
-    }
-    int diff = (totalA - totalB);
+    int totalA = accumulate(A.begin(), A.end(), 0);
+    int totalB = accumulate(B.begin(), B.end(), 0);
+    int diff = (totalA - totalB) / 2;
+    unordered_set<int> setB(B.begin(), B.end());
     for (int sizeA : A) {
-      for (int sizeB : B) {
-        if ((sizeA - sizeB) * 2 == diff) {
-          return {sizeA, sizeB};
+        if (setB.count(sizeA - diff)) {
+          return {sizeA, sizeA - diff};
         }
-      }
     }
     return {-1, -1};
   }
