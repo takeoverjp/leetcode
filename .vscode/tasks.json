@@ -7,7 +7,7 @@
       "label": "build",
       "type": "shell",
       "command": "g++",
-      "args": ["-g", "-std=c++14", "-Og", "-W", "-Wall", "-o", "a.out", "${file}"],
+      "args": ["-g", "-std=c++14", "-Og", "-W", "-Wall", "-fsanitize=address", "-o", "a.out", "${file}"],
       "group": {
         "kind": "build",
         "isDefault": true
@@ -16,7 +16,7 @@
     {
       "label": "test",
       "type": "shell",
-      "command": "valgrind ./a.out",
+      "command": "./a.out",
       "group": {
         "kind": "test",
         "isDefault": true
