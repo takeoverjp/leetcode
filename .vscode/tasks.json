@@ -7,7 +7,17 @@
       "label": "build",
       "type": "shell",
       "command": "g++",
-      "args": ["-g", "-std=c++14", "-Og", "-W", "-Wall", "-fsanitize=address", "-o", "a.out", "${file}"],
+      "args": [
+        "-g",
+        "-std=c++14",
+        "-Og",
+        "-W",
+        "-Wall",
+        "-fsanitize=address",
+        "-o",
+        "a.out",
+        "${file}"
+      ],
       "group": {
         "kind": "build",
         "isDefault": true
@@ -22,6 +32,17 @@
         "isDefault": true
       },
       "dependsOn": "build"
+    },
+    {
+      "label": "test sql",
+      "type": "shell",
+      "command": "cat",
+      "args": [
+        "${file}",
+        "|",
+        "sqlite3"
+      ],
+      "group": "test"
     }
   ]
 }
