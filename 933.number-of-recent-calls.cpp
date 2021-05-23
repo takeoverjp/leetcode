@@ -10,19 +10,15 @@ class RecentCounter {
   RecentCounter() {}
 
   int ping(int t) {
-    for (auto it = requests_.begin(); it != requests_.end();) {
-      if (*it < t - 3000) {
-        it = requests_.erase(it);
-      } else {
-        break;
-      }
+    requests_.push(t);
+    while (requests_.front() < t - 3000) {
+      requests_.pop();
     }
-    requests_.push_back(t);
     return requests_.size();
   }
 
  private:
-  std::vector<int> requests_;
+  std::queue<int> requests_;
 };
 
 /**
