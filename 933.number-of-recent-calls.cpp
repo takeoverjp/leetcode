@@ -10,14 +10,14 @@ class RecentCounter {
   RecentCounter() {}
 
   int ping(int t) {
-    requests_.push_back(t);
     for (auto it = requests_.begin(); it != requests_.end();) {
       if (*it < t - 3000) {
         it = requests_.erase(it);
       } else {
-        it++;
+        break;
       }
     }
+    requests_.push_back(t);
     return requests_.size();
   }
 
