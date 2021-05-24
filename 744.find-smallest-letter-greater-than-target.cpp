@@ -11,23 +11,22 @@ using namespace std;
 
 // @lc code=start
 class Solution {
-public:
-    char nextGreatestLetter(vector<char>& letters, char target) {
-        if (target < *letters.end()) {
-            return letters[0];
-        }
-        for (int i = 0; i < letters.size(); i++) {
-            if (letters[i] > target){
-                return letters[i];
-            }        
-        }
-        return letters[0];
+ public:
+  char nextGreatestLetter(vector<char>& letters, char target) {
+    if (target < letters[0]) {
+      return letters[0];
     }
+    for (const auto letter : letters) {
+      if (letter > target) {
+        return letter;
+      }
+    }
+    return letters[0];
+  }
 };
 // @lc code=end
 
-int
-main () {
+int main() {
   Solution s;
   vector<char> letters;
   letters = {'c', 'f', 'j'};
