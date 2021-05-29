@@ -13,17 +13,18 @@ using namespace std;
 class Solution {
  public:
   int lengthOfLongestSubstring(string s) {
-    uint chrs = std::set<char>(s.begin(), s.end()).size();
-    uint len = s.length();
-    for (int width = chrs; width >= 0; width--) {
-      for (uint i = 0; i <= len - width; i++) {
-        if (static_cast<uint>(width) ==
-            std::set<char>(s.begin() + i, s.begin() + i + width).size()) {
-          return width;
-        }
+    int last_pos[256] = {0};
+    int left = 0;
+    int len = s.length();
+    int ret = 0;
+    for (int right = 0; right < len; right++) {
+      if (last_pos[s[right]] > 0) {
+        left = max(left, last_pos[s[right]]);
       }
+      last_pos[s[right]] = right + 1;
+      ret = max(ret, right - left + 1);
     }
-    return 0;
+    return ret;
   }
 };
 // @lc code=end
