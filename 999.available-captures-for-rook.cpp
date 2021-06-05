@@ -25,44 +25,23 @@ class Solution {
       }
     }
     int ret = 0;
-    for (int y = rook_y + 1; y < 8; y++) {
-      char val = board[y][rook_x];
-      if (val == 'B') {
-        break;
-      }
-      if (val == 'p') {
-        ret++;
-        break;
-      }
-    }
-    for (int y = rook_y - 1; y >= 0; y--) {
-      char val = board[y][rook_x];
-      if (val == 'B') {
-        break;
-      }
-      if (val == 'p') {
-        ret++;
-        break;
-      }
-    }
-    for (int x = rook_x + 1; x < 8; x++) {
-      char val = board[rook_y][x];
-      if (val == 'B') {
-        break;
-      }
-      if (val == 'p') {
-        ret++;
-        break;
-      }
-    }
-    for (int x = rook_x - 1; x >= 0; x--) {
-      char val = board[rook_y][x];
-      if (val == 'B') {
-        break;
-      }
-      if (val == 'p') {
-        ret++;
-        break;
+    int directions[][2] = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    for (const auto& dir : directions) {
+      int dx = dir[0];
+      int dy = dir[1];
+      int x = rook_x + dx;
+      int y = rook_y + dy;
+      while (y >= 0 && y < 8 && x >= 0 && x < 8) {
+        char val = board[y][x];
+        if (val == 'B') {
+          break;
+        }
+        if (val == 'p') {
+          ret++;
+          break;
+        }
+        x += dx;
+        y += dy;
       }
     }
     return ret;
