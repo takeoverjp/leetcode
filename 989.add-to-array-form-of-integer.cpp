@@ -13,18 +13,22 @@ using namespace std;
 class Solution {
  public:
   vector<int> addToArrayForm(vector<int>& num, int k) {
+    int size = num.size();
     int k_size = 0;
-    while (k) {
-      k /= 10;
+    int tmp = k;
+    while (tmp) {
+      tmp /= 10;
       k_size++;
     }
-    int size = std::max<int>(num.size(), k_size);
-    vector<int> ret(size + 1, 0);
-    for (int i = 0; i < size; i++) {
-      ret[size - i] += num[size - i - 1] + (k % 10);
-      if (ret[size - i] >= 10) {
-        ret[size - i] -= 10;
-        ret[size - i - 1]++;
+    int max_size = std::max(size, k_size) + 1;
+    vector<int> ret(max_size, 0);
+    for (int i = 0; (i < size) || k; i++) {
+      int lhs = (i < size) ? num[size - i - 1] : 0;
+      int rhs = k % 10;
+      ret[max_size - i - 1] += lhs + rhs;
+      if (ret[max_size - i - 1] >= 10) {
+        ret[max_size - i - 1] -= 10;
+        ret[max_size - i - 2]++;
       }
       k /= 10;
     }
