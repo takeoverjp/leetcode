@@ -14,28 +14,18 @@ class Solution {
  public:
   vector<int> sumEvenAfterQueries(vector<int>& nums,
                                   vector<vector<int>>& queries) {
+    int64_t sum = accumulate(nums.begin(), nums.end(), 0, [](int sum, int num) {
+      return sum + (num % 2 == 0 ? num : 0);
+    });
     vector<int> ret(queries.size());
-    int64_t sum = 0;
-    for (const auto& num : nums) {
-      if (num % 2 == 0) {
-        sum += num;
-      }
-    }
     int i = 0;
     for (const auto& query : queries) {
-      int before = nums[query[1]];
+      if (nums[query[1]] % 2 == 0) {
+          sum -= nums[query[1]];
+      }
       nums[query[1]] += query[0];
-      int after = nums[query[1]];
-      if (query[0] % 2 == 0) {
-        if (after % 2 == 0) {
-          sum += query[0];
-        }
-      } else {
-        if (after % 2 == 0) {
-          sum += after;
-        } else {
-          sum -= before;
-        }
+      if (nums[query[1]] % 2 == 0) {
+          sum += nums[query[1]];
       }
       ret[i++] = sum;
     }
