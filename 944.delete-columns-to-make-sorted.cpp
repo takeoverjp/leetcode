@@ -17,13 +17,10 @@ class Solution {
     int row_num = strs.size();
     int column_num = strs[0].length();
     for (int x = 0; x < column_num; x++) {
-      char last = strs[0][x];
       for (int y = 1; y < row_num; y++) {
-        if (strs[y][x] < last) {
+        if (strs[y][x] < strs[y-1][x]) {
           ret++;
           break;
-        } else {
-          last = strs[y][x];
         }
       }
     }
