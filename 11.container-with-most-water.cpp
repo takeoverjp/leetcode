@@ -14,11 +14,18 @@ class Solution {
  public:
   int maxArea(vector<int>& height) {
     int size = height.size();
+    int left = 0;
+    int right = size - 1;
     int ret = 0;
-    for (int left = 0; left < size - 1; left++) {
-      for (int right = left + 1; right < size; right++) {
-        int rect_h = std::min(height[left], height[right]);
-        ret = max(ret, rect_h * (right - left));
+    while (left < right) {
+      int left_h = height[left];
+      int right_h = height[right];
+      int rect_h = std::min(left_h, right_h);
+      ret = max(ret, rect_h * (right - left));
+      if (left_h > right_h) {
+        right--;
+      } else {
+        left++;
       }
     }
     return ret;
@@ -29,7 +36,7 @@ class Solution {
 int main() {
   Solution s;
   vector<int> height;
-  height = {1,8,6,2,5,4,8,3,7};
+  height = {1, 8, 6, 2, 5, 4, 8, 3, 7};
   ASSERT_EQ(s.maxArea(height), 49);
   height = {1, 1};
   ASSERT_EQ(s.maxArea(height), 1);
