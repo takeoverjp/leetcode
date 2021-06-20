@@ -13,50 +13,34 @@ using namespace std;
 class Solution {
  public:
   string intToRoman(int num) {
-    const vector<vector<char>> symbols = {
-        {'I', 'V'},
-        {'X', 'L'},
-        {'C', 'D'},
-        {'M', '.'},
-    };
-    int digit = 0;
+    int thousands = num / 1000;
+    int hundreds = num / 100 % 10;
+    int tens = num / 10 % 10;
+    int ones = num % 10;
     string ret;
-    while (num) {
-      string work_str;
-      int work_val = num % 10;
-      switch (work_val) {
-        case 0:
-          break;
-        case 1:
-        case 2:
-        case 3:
-          while (work_val--) {
-            work_str += symbols[digit][0];
-          }
-          break;
-        case 4:
-          work_str += string({symbols[digit][0], symbols[digit][1]});
-          break;
-        case 5:
-          work_str += symbols[digit][1];
-          break;
-        case 6:
-        case 7:
-        case 8:
-          work_str += symbols[digit][1];
-          work_val -= 5;
-          while (work_val--) {
-            work_str += symbols[digit][0];
-          }
-          break;
-        case 9:
-          work_str += string({symbols[digit][0], symbols[digit + 1][0]});
-          break;
-      }
-      num /= 10;
-      digit++;
-      ret = work_str + ret;
-    }
+
+#define DIGIT_TO_ROMAN(digit, sym1, sym2, sym3)           \
+  do {                                                    \
+    if (digit) {                                          \
+      if (digit < 4) {                                    \
+        ret += string(digit, sym1);                       \
+      } else if (digit < 5) {                             \
+        ret += string({sym1, sym2});                      \
+      } else if (digit < 9) {                             \
+        ret += string(1, sym2) + string(digit - 5, sym1); \
+      } else {                                            \
+        ret += string({sym1, sym3});                      \
+      }                                                   \
+    }                                                     \
+  } while (0)
+
+    DIGIT_TO_ROMAN(thousands, 'M', '-', '-');
+    DIGIT_TO_ROMAN(hundreds, 'C', 'D', 'M');
+    DIGIT_TO_ROMAN(tens, 'X', 'L', 'C');
+    DIGIT_TO_ROMAN(ones, 'I', 'V', 'X');
+
+#undef DIGIT_TO_ROMAN
+
     return ret;
   }
 };
