@@ -4,6 +4,21 @@
  * [144] Binary Tree Preorder Traversal
  */
 
+#include <bits/stdc++.h>
+#include "lassert/lassert.h"
+
+using namespace std;
+
+struct TreeNode {
+  int val;
+  TreeNode* left;
+  TreeNode* right;
+  TreeNode() : val(0), left(nullptr), right(nullptr) {}
+  TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+  TreeNode(int x, TreeNode* left, TreeNode* right)
+      : val(x), left(left), right(right) {}
+};
+
 // @lc code=start
 /**
  * Definition for a binary tree node.
@@ -20,19 +35,21 @@
 class Solution {
  public:
   vector<int> preorderTraversal(TreeNode* root) {
+    stack<TreeNode*> node_stack;
+    TreeNode* curr = root;
     vector<int> ret;
-    preorderTraversal(root, ret);
-    return ret;
-  }
-
- private:
-    void preorderTraversal(TreeNode* root, vector<int>& ret) {
-    if (!root) {
-      return;
+    while ((curr != nullptr) || node_stack.size()) {
+      if (curr) {
+        ret.push_back(curr->val);
+        node_stack.push(curr);
+        curr = curr->left;
+      } else {
+        curr = node_stack.top();
+        node_stack.pop();
+        curr = curr->right;
+      }
     }
-    ret.push_back(root->val);
-    preorderTraversal(root->left, ret);
-    preorderTraversal(root->right, ret);
+    return ret;
   }
 };
 
