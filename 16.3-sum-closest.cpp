@@ -14,18 +14,26 @@ class Solution {
  public:
   int threeSumClosest(vector<int>& nums, int target) {
     std::sort(nums.begin(), nums.end());
-    int min_dist = INT_MAX;
     int ret = INT_MAX;
+    int min_dist = INT_MAX;
     int size = nums.size();
-    for (int i = 0; i < size - 2; i++) {
-      for (int j = i + 1; j < size - 1; j++) {
-        for (int k = j + 1; k < size; k++) {
-          int sum = nums[i] + nums[j] + nums[k];
-          int distance = abs(sum - target);
-          if (distance < min_dist) {
-            min_dist = distance;
-            ret = sum;
-          }
+    for (int left = 0; left < size - 2; left++) {
+      int middle = left + 1;
+      int right = size - 1;
+      while (middle < right) {
+        int sum = nums[left] + nums[middle] + nums[right];
+        if (sum == target) {
+          return target;
+        }
+        int dist = abs(sum - target);
+        if (dist < min_dist) {
+          min_dist = dist;
+          ret = sum;
+        }
+        if (sum < target) {
+          middle++;
+        } else {
+          right--;
         }
       }
     }
@@ -43,10 +51,9 @@ int main() {
   ASSERT_EQ(s.threeSumClosest(nums, 1), 1);
   nums = {-1, 2, 9, -4, -1};
   ASSERT_EQ(s.threeSumClosest(nums, 1), 0);
-  vector<int> large(1000);
-  for (auto& num : large) {
-    num = 1000;
-  }
+  vector<int> large(1000, 1000);
   ASSERT_EQ(s.threeSumClosest(large, 1), 3000);
+  vector<int> min_large(1000, -1000);
+  ASSERT_EQ(s.threeSumClosest(min_large, 1), -3000);
   return 0;
 }
