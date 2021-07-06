@@ -14,11 +14,15 @@ class Solution {
  public:
   vector<int> twoSum(vector<int>& nums, int target) {
     int size = nums.size();
-    for (int i = 0; i < size - 1; i++) {
-      for (int j = i + 1; j < size; j++) {
-        if (nums[i] + nums[j] == target) {
-          return {i, j};
-        }
+    // val, index
+    std::unordered_map<int, int> dict;
+    for (int i = 0; i < size; i++) {
+      int n = nums[i];
+      int m = target - n;
+      if (dict.count(m)) {
+        return {dict[m], i};
+      } else {
+        dict[n] = i;
       }
     }
     return {};
