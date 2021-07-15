@@ -12,18 +12,14 @@ using namespace std;
 // @lc code=start
 class NumArray {
  public:
-  NumArray(vector<int>& nums) : nums_(nums) {}
-
-  int sumRange(int left, int right) {
-    int ret = 0;
-    for (int i = left; i <= right; i++) {
-      ret += nums_[i];
-    }
-    return ret;
+  NumArray(vector<int>& nums) : sums_(nums.size() + 1, 0) {
+    std::partial_sum(nums.begin(), nums.end(), sums_.begin() + 1);
   }
 
+  int sumRange(int left, int right) { return sums_[right + 1] - sums_[left]; }
+
  private:
-  vector<int> nums_;
+  vector<int> sums_;
 };
 
 /**
