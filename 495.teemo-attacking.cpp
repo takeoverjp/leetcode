@@ -12,16 +12,14 @@ using namespace std;
 // @lc code=start
 class Solution {
  public:
-  int findPoisonedDuration(vector<int>& timeSeries, int duration) {
+    int findPoisonedDuration(vector<int>& timeSeries, int duration) {
     int size = timeSeries.size();
     int ret = 0;
-    for (int i = 0; i < size; i++) {
-      if (i == size - 1) {
-        ret += duration;
-        break;
-      }
-
+    for (int i = 0; i < size - 1; i++) {
       ret += std::min(timeSeries[i + 1] - timeSeries[i], duration);
+    }
+    if (size > 0) {
+      ret += duration;
     }
     return ret;
   }
