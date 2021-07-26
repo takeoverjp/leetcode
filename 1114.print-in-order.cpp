@@ -12,44 +12,40 @@ using namespace std;
 // @lc code=start
 class Foo {
  public:
-  Foo() : is_first_done(false), is_second_done(false) {}
+  Foo() : state(0) {}
 
   void first(function<void()> printFirst) {
     // printFirst() outputs "first". Do not change or remove this line.
     printFirst();
-    is_first_done = true;
-    std::lock_guard<std::mutex> is_first_done_lk(is_first_done_mtx);
-    is_first_done_cv.notify_one();
+    state = 1;
+    std::lock_guard<std::mutex> lk(state_mtx);
+    state_cv.notify_all();
   }
 
   void second(function<void()> printSecond) {
-    std::unique_lock<std::mutex> is_first_done_lk(is_first_done_mtx);
-    is_first_done_cv.wait(is_first_done_lk, [&] {
-      return is_first_done;
+    std::unique_lock<std::mutex> lk(state_mtx);
+    state_cv.wait(lk, [&] {
+      return state == 1;
     });
     // printSecond() outputs "second". Do not change or remove this line.
     printSecond();
-    is_second_done = true;
-    std::lock_guard<std::mutex> is_second_done_lk(is_second_done_mtx);
-    is_second_done_cv.notify_one();
+    state = 2;
+    state_cv.notify_all();
   }
 
   void third(function<void()> printThird) {
-    std::unique_lock<std::mutex> is_second_done_lk(is_second_done_mtx);
-    is_second_done_cv.wait(is_second_done_lk, [&] {
-      return is_second_done;
+    std::unique_lock<std::mutex> state_lk(state_mtx);
+    state_cv.wait(state_lk, [&] {
+      return state == 2;
     });
     // printThird() outputs "third". Do not change or remove this line.
     printThird();
   }
 
  private:
-  bool is_first_done;
-  std::mutex is_first_done_mtx;
-  std::condition_variable is_first_done_cv;
-  bool is_second_done;
-  std::mutex is_second_done_mtx;
-  std::condition_variable is_second_done_cv;
+  int state;
+  std::mutex state_mtx;
+  std::condition_variable state_cv;
 };
 // @lc code=end
 
