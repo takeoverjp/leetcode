@@ -10,43 +10,69 @@
 using namespace std;
 
 // @lc code=start
+// #define USE_PROMISE
+#if defined(USE_PROMISE)
 class Foo {
  public:
-  Foo() : state(0) {}
+  Foo() {}
 
   void first(function<void()> printFirst) {
     // printFirst() outputs "first". Do not change or remove this line.
     printFirst();
-    state = 1;
-    std::lock_guard<std::mutex> lk(state_mtx);
-    state_cv.notify_all();
+    promises_[0].set_value();
   }
 
   void second(function<void()> printSecond) {
-    std::unique_lock<std::mutex> lk(state_mtx);
-    state_cv.wait(lk, [&] {
-      return state == 1;
-    });
+    promises_[0].get_future().wait();
     // printSecond() outputs "second". Do not change or remove this line.
     printSecond();
-    state = 2;
-    state_cv.notify_all();
+    promises_[1].set_value();
   }
 
   void third(function<void()> printThird) {
-    std::unique_lock<std::mutex> state_lk(state_mtx);
-    state_cv.wait(state_lk, [&] {
-      return state == 2;
-    });
+    promises_[1].get_future().wait();
     // printThird() outputs "third". Do not change or remove this line.
     printThird();
   }
 
  private:
-  int state;
-  std::mutex state_mtx;
-  std::condition_variable state_cv;
+  std::promise<void> promises_[2];
 };
+#else
+class Foo {
+ public:
+  Foo() : state_(0) {}
+
+  void first(function<void()> printFirst) {
+    // printFirst() outputs "first". Do not change or remove this line.
+    printFirst();
+    std::lock_guard<std::mutex> lk(state_mtx_);
+    state_ = 1;
+    state_cvs_[0].notify_one();
+  }
+
+  void second(function<void()> printSecond) {
+    std::unique_lock<std::mutex> lk(state_mtx_);
+    state_cvs_[0].wait(lk, [this]() { return state_ == 1; });
+    // printSecond() outputs "second". Do not change or remove this line.
+    printSecond();
+    state_ = 2;
+    state_cvs_[1].notify_one();
+  }
+
+  void third(function<void()> printThird) {
+    std::unique_lock<std::mutex> lk(state_mtx_);
+    state_cvs_[1].wait(lk, [this]() { return state_ == 2; });
+    // printThird() outputs "third". Do not change or remove this line.
+    printThird();
+  }
+
+ private:
+  uint8_t state_;
+  std::mutex state_mtx_;
+  std::condition_variable state_cvs_[2];
+};
+#endif
 // @lc code=end
 
 int main() {
