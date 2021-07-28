@@ -13,7 +13,7 @@
         "-Og",
         "-W",
         "-Wall",
-        "-fsanitize=address",
+        "-fsanitize=address,undefined",
         "-o",
         "a.out",
         "${file}"
@@ -31,7 +31,8 @@
         "kind": "test",
         "isDefault": true
       },
-      "dependsOn": "build"
+      "dependsOn": "build",
+      "problemMatcher": []
     },
     {
       "label": "test sql",
