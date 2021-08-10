@@ -14,28 +14,14 @@ class Solution {
  public:
   double largestTriangleArea(vector<vector<int>>& points) {
     int size = points.size();
-    int ret = 0;
+    int ret = INT_MIN;
     for (int i = 0; i < size - 2; i++) {
       for (int j = i + 1; j < size - 1; j++) {
         for (int k = j + 1; k < size; k++) {
-          int minx = min(min(points[i][0], points[j][0]), points[k][0]);
-          int maxx = max(max(points[i][0], points[j][0]), points[k][0]);
-          int miny = min(min(points[i][1], points[j][1]), points[k][1]);
-          int maxy = max(max(points[i][1], points[j][1]), points[k][1]);
-          int rect = (maxx - minx) * (maxy - miny) * 2;
-          int triij = abs((points[i][0] - points[j][0]) *
-                          (points[i][1] - points[j][1]));
-          int trijk = abs((points[j][0] - points[k][0]) *
-                          (points[j][1] - points[k][1]));
-          int triki = abs((points[k][0] - points[i][0]) *
-                          (points[k][1] - points[i][1]));
-          cout << "points = " << points[i][0] << "," << points[i][1] << ","
-               << points[j][0] << "," << points[j][1] << "," << points[k][0]
-               << "," << points[k][1] << endl;
-          cout << "rect = " << rect << endl;
-          cout << "tri = " << triij << "," << trijk << "," << triki << endl;
-          ret = max(ret, rect - triij - trijk - triki);
-          cout << "ret = " << ret << endl;
+          int area = points[i][0] * points[j][1] + points[j][0] * points[k][1] +
+                     points[k][0] * points[i][1] - points[i][0] * points[k][1] -
+                     points[j][0] * points[i][1] - points[k][0] * points[j][1];
+          ret = std::max(ret, std::abs(area));
         }
       }
     }
@@ -49,6 +35,8 @@ int main() {
   vector<vector<int>> points;
   points = {{0, 0}, {0, 1}, {1, 0}, {0, 2}, {2, 0}};
   ASSERT_EQ(s.largestTriangleArea(points), 2);
+  points = {{1, 0}, {0, 0}, {0, 1}};
+  ASSERT_EQ(s.largestTriangleArea(points), 0.5);
   points = {{2, 5}, {7, 7}, {10, 8}, {10, 10}, {1, 1}};
   ASSERT_EQ(s.largestTriangleArea(points), 14.5);
   return 0;
