@@ -13,25 +13,28 @@ using namespace std;
 class Solution {
  public:
   int oddCells(int m, int n, vector<vector<int>>& indices) {
-    bool is_odd[m][n];
-    memset(is_odd, 0, sizeof(is_odd));
+    bool is_odd_row[m];
+    bool is_odd_col[n];
+    memset(is_odd_row, 0, sizeof(is_odd_row));
+    memset(is_odd_col, 0, sizeof(is_odd_col));
     for (const auto& index : indices) {
-      for (int x = 0; x < n; x++) {
-        is_odd[index[0]][x] = !is_odd[index[0]][x];
-      }
-      for (int y = 0; y < m; y++) {
-        is_odd[y][index[1]] = !is_odd[y][index[1]];
+      is_odd_row[index[0]] = !is_odd_row[index[0]];
+      is_odd_col[index[1]] = !is_odd_col[index[1]];
+    }
+
+    int odd_row = 0;
+    for (int i = 0; i < m; i++) {
+      if (is_odd_row[i]) {
+        odd_row++;
       }
     }
-    int ret = 0;
-    for (int x = 0; x < n; x++) {
-      for (int y = 0; y < m; y++) {
-        if (is_odd[y][x]) {
-          ret++;
-        }
+    int odd_col = 0;
+    for (int i = 0; i < n; i++) {
+      if (is_odd_col[i]) {
+        odd_col++;
       }
     }
-    return ret;
+    return odd_row * n + odd_col * m - 2 * odd_row * odd_col;
   }
 };
 // @lc code=end
