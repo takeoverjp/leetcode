@@ -44,6 +44,15 @@
         "sqlite3"
       ],
       "group": "test"
+    },
+    {
+      "label": "test Python3",
+      "type": "shell",
+      "command": "python3",
+      "args": [
+        "${file}"
+      ],
+      "group": "test"
     }
   ]
 }
