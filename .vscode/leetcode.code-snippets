@@ -16,6 +16,7 @@
 	// 	"description": "Log output to console"
 	// }
 	"leetcode begin": {
+		"scope": "cpp",
 		"prefix": "leetcode begin",
 		"body": [
 			"#include <bits/stdc++.h>",
@@ -27,6 +28,7 @@
 		]
 	},
 	"leetcode end": {
+		"scope": "cpp",
 		"prefix": "leetcode end",
 		"body": [
 			"int",
