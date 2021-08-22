@@ -26,7 +26,7 @@ class Solution {
     for (int i = 0; i < m; i++) {
       for (int j = 0; j < n; j++) {
         int new_j = (j + k) % n;
-        int new_i = (i + (j + k) / m) % m;
+        int new_i = (i + (j + k) / n) % m;
         ret[new_i][new_j] = grid[i][j];
       }
     }
@@ -50,5 +50,9 @@ int main() {
   grid = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
   exp = grid;
   ASSERT_EQ(s.shiftGrid(grid, 9), exp);
+
+  grid = {{1}, {2}, {3}, {4}, {7}, {6}, {5}};
+  exp = {{6}, {5}, {1}, {2}, {3}, {4}, {7}};
+  ASSERT_EQ(s.shiftGrid(grid, 23), exp);
   return 0;
 }
