@@ -13,20 +13,14 @@ using namespace std;
 class Solution {
  public:
   vector<int> replaceElements(vector<int>& arr) {
-    findMax(arr, 0);
-    return arr;
-  }
-
- private:
-  int findMax(vector<int>& arr, int start) {
-    int orig = arr[start];
-    int size = arr.size();
-    if (start == size - 1) {
-      arr[start] = -1;
-      return orig;
+    int max_num = *arr.rbegin();
+    *arr.rbegin() = -1;
+    for (auto it = arr.rbegin() + 1; it != arr.rend(); it++) {
+      int orig_num = *it;
+      *it = max_num;
+      max_num = std::max(max_num, orig_num);
     }
-    arr[start] = findMax(arr, start + 1);
-    return std::max(orig, arr[start]);
+    return arr;
   }
 };
 // @lc code=end
