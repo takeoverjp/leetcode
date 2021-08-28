@@ -15,6 +15,7 @@ class Solution {
   string freqAlphabets(string s) {
     int size = s.length();
     std::string ret;
+    ret.reserve(size);
     for (int i = size - 1; i >= 0; i--) {
       char c = 'a' - 1;
       if (s[i] == '#') {
