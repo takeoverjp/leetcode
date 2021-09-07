@@ -15,12 +15,7 @@ class Solution {
   int countNegatives(vector<vector<int>>& grid) {
     int ret = 0;
     for (const auto& row : grid) {
-      for (auto it = row.rbegin(); it != row.rend(); it++) {
-        if (*it >= 0) {
-          break;
-        }
-        ret++;
-      }
+      ret += std::upper_bound(row.rbegin(), row.rend(), -1) - row.rbegin();
     }
     return ret;
   }
