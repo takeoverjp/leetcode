@@ -13,27 +13,15 @@ using namespace std;
 class Solution {
  public:
   vector<int> sortByBits(vector<int>& arr) {
-    std::unordered_map<int, int> counts;
-    for (const auto num : arr) {
-      int count = 0;
-      int tmp = num;
-      while (tmp) {
-        count += tmp % 2;
-        tmp /= 2;
-      }
-      counts[num] = count;
-    }
-    std::sort(std::begin(arr), std::end(arr), [&counts](int lhs, int rhs) {
-      int lbits = counts[lhs];
-      int rbits = counts[rhs];
-      if (lbits < rbits) {
-        return true;
-      }
-      if (lbits > rbits) {
-        return false;
-      }
-
-      return lhs < rhs;
+    std::sort(std::begin(arr), std::end(arr), [](int lhs, int rhs) {
+#if 1
+      int lbits = __builtin_popcount(lhs);
+      int rbits = __builtin_popcount(rhs);
+#else
+      int lbits = std::bitset<sizeof(int) * 8>(lhs).count();
+      int rbits = std::bitset<sizeof(int) * 8>(rhs).count();
+#endif
+      return lbits == rbits ? (lhs < rhs) : (lbits < rbits);
     });
     return arr;
   }
