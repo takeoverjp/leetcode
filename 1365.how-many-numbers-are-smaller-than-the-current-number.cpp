@@ -15,10 +15,15 @@ class Solution {
   vector<int> smallerNumbersThanCurrent(vector<int>& nums) {
     int size = nums.size();
     vector<int> ret(size);
+    vector<int> count(101, 0);
+    for (const int num : nums) {
+      count[num]++;
+    }
+    for (int i = 1; i < 101; i++) {
+      count[i] += count[i - 1];
+    }
     for (int i = 0; i < size; i++) {
-      const int num = nums[i];
-      ret[i] = std::count_if(std::begin(nums), std::end(nums),
-                             [num](const auto i) { return i < num; });
+      ret[i] = (nums[i] > 0) ? count[nums[i] - 1] : 0;
     }
     return ret;
   }
@@ -36,6 +41,9 @@ int main() {
   ASSERT_EQ(s.smallerNumbersThanCurrent(nums), exp);
   nums = {7, 7, 7, 7};
   exp = {0, 0, 0, 0};
+  ASSERT_EQ(s.smallerNumbersThanCurrent(nums), exp);
+  nums = {5, 0, 10, 0, 10, 6};
+  exp = {2, 0, 4, 0, 4, 3};
   ASSERT_EQ(s.smallerNumbersThanCurrent(nums), exp);
   return 0;
 }
