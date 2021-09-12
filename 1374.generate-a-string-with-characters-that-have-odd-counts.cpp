@@ -13,20 +13,15 @@ using namespace std;
 class Solution {
  public:
   string generateTheString(int n) {
-    string ret;
-    ret.resize(n, 'a');
-    if (n % 2 == 0) {
-      ret[0] = 'b';
-    }
-    return ret;
+    return (n % 2) ? string(n, 'a') : (string(n - 1, 'a') + 'b');
   }
 };
 // @lc code=end
 
 int main() {
   Solution s;
-  ASSERT_EQ(s.generateTheString(4), "baaa");
-  ASSERT_EQ(s.generateTheString(2), "ba");
+  ASSERT_EQ(s.generateTheString(4), "aaab");
+  ASSERT_EQ(s.generateTheString(2), "ab");
   ASSERT_EQ(s.generateTheString(7), "aaaaaaa");
   return 0;
 }
