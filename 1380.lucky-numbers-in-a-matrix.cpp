@@ -13,31 +13,25 @@ using namespace std;
 class Solution {
  public:
   vector<int> luckyNumbers(vector<vector<int>>& matrix) {
-    vector<int> luckys;
+    std::vector<int> ret;
+    std::set<int> mins, maxs;
     for (const auto& row : matrix) {
-      int w = row.size();
-      int min_index = -1;
-      int min_value = INT_MAX;
-      for (int i = 0; i < w; i++) {
-        if (row[i] < min_value) {
-          min_value = row[i];
-          min_index = i;
-        }
-      }
-
-      int h = matrix.size();
-      bool is_lucky = true;
-      for (int i = 0; i < h; i++) {
-        if (matrix[i][min_index] > min_value) {
-          is_lucky = false;
-          break;
-        }
-      }
-      if (is_lucky) {
-        luckys.push_back(min_value);
-      }
+      mins.insert(*std::min_element(row.begin(), row.end()));
     }
-    return luckys;
+
+    int h = matrix.size();
+    int w = matrix[0].size();
+    for (int i = 0; i < w; i++) {
+      int max_value = INT_MIN;
+      for (int j = 0; j < h; j++) {
+        max_value = max(max_value, matrix[j][i]);
+      }
+      maxs.insert(max_value);
+    }
+
+    std::set_intersection(mins.begin(), mins.end(), maxs.begin(), maxs.end(),
+                          std::back_inserter(ret));
+    return ret;
   }
 };
 // @lc code=end
