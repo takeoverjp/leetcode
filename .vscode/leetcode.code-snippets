@@ -40,6 +40,30 @@
 			""
 		]
 	},
+	"leetcode begin (Rust)": {
+		"scope": "rust",
+		"prefix": "leetcode begin",
+		"body": [
+			"struct Solution",
+			""
+		]
+	},
+	"leetcode end (Rust)": {
+		"scope": "rust",
+		"prefix": "leetcode end",
+		"body": [
+			"#[test]",
+			"fn test1() {",
+			"    assert_eq!(Solution::$1(), );",
+			"}",
+			"",
+			"#[test]",
+			"fn test2() {",
+			"    assert_eq!(Solution::$1(), );",
+			"}",
+			""
+		]
+	},
 	"leetcode (Python3)": {
 		"scope": "python",
 		"prefix": "leetcode",

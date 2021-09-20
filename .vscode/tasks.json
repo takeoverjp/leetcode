@@ -9,7 +9,7 @@
       "command": "g++",
       "args": [
         "-g",
-        "-std=c++14",
+        "-std=c++2a",
         "-Og",
         "-W",
         "-Wall",
@@ -32,6 +32,37 @@
         "isDefault": true
       },
       "dependsOn": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "fmt rust",
+      "type": "shell",
+      "command": "rustfmt",
+      "args": [
+        "${file}"
+      ],
+      "group": "build"
+    },
+    {
+      "label": "build rust",
+      "type": "shell",
+      "command": "rustc",
+      "args": [
+        "-g",
+        "--test",
+        "--crate-name",
+        "test",
+        "${file}"
+      ],
+      "group": "build",
+      "dependsOn": "fmt rust"
+    },
+    {
+      "label": "test rust",
+      "type": "shell",
+      "command": "./test",
+      "group": "test",
+      "dependsOn": "build rust",
       "problemMatcher": []
     },
     {
