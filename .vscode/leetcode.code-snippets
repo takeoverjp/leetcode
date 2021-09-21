@@ -44,7 +44,7 @@
 		"scope": "rust",
 		"prefix": "leetcode begin",
 		"body": [
-			"struct Solution",
+			"struct Solution;",
 			""
 		]
 	},
