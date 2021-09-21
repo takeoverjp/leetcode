@@ -4,7 +4,10 @@
  * [9] Palindrome Number
  */
 
-#include <cstdint>
+#include <bits/stdc++.h>
+#include "lassert/lassert.h"
+
+using namespace std;
 
 // @lc code=start
 class Solution {
@@ -22,3 +25,12 @@ public:
 };
 // @lc code=end
 
+int
+main () {
+  Solution s;
+  ASSERT_EQ(s.isPalindrome(121), true);
+  ASSERT_EQ(s.isPalindrome(-121), false);
+  ASSERT_EQ(s.isPalindrome(10), false);
+  ASSERT_EQ(s.isPalindrome(-101), false);
+  return 0;
+}
