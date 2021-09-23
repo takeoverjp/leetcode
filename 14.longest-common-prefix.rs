@@ -4,24 +4,22 @@
  * [14] Longest Common Prefix
  */
 
-use std::cmp::min;
-
 struct Solution;
 // @lc code=start
 impl Solution {
     pub fn longest_common_prefix(strs: Vec<String>) -> String {
-        let mut current = strs[0].len();
+        let mut longest_prefix = strs[0].len();
         for i in 1..strs.len() {
-            current = min(current, strs[i].len());
-            for j in 0..current {
+            longest_prefix = std::cmp::min(longest_prefix, strs[i].len());
+            let cmp_end = longest_prefix;
+            for j in 0..cmp_end {
                 if strs[i - 1].chars().nth(j) != strs[i].chars().nth(j) {
-                    current = j;
+                    longest_prefix = j;
                     break;
                 }
             }
-            println!("current = {}", current);
         }
-        strs[0].chars().collect::<Vec<char>>()[..current]
+        strs[0].chars().collect::<Vec<char>>()[..longest_prefix]
             .iter()
             .collect()
     }
