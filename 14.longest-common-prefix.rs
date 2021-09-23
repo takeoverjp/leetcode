@@ -8,20 +8,19 @@ struct Solution;
 // @lc code=start
 impl Solution {
     pub fn longest_common_prefix(strs: Vec<String>) -> String {
-        let mut longest_prefix = strs[0].len();
-        for i in 1..strs.len() {
-            longest_prefix = std::cmp::min(longest_prefix, strs[i].len());
-            let cmp_end = longest_prefix;
+        let mut ret: Vec<char> = strs[0].chars().collect();
+        for str in strs.iter().skip(1) {
+            let cmp_end = ret.len();
+            let curr: Vec<char> = str.chars().collect();
+            let curr_len = curr.len();
             for j in 0..cmp_end {
-                if strs[i - 1].chars().nth(j) != strs[i].chars().nth(j) {
-                    longest_prefix = j;
+                if j >= curr_len || ret[j] != curr[j] {
+                    ret = ret[..j].to_vec();
                     break;
                 }
             }
         }
-        strs[0].chars().collect::<Vec<char>>()[..longest_prefix]
-            .iter()
-            .collect()
+        ret.iter().collect()
     }
 }
 // @lc code=end
