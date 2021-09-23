@@ -46,7 +46,7 @@
     {
       "label": "build rust",
       "type": "shell",
-      "command": "rustc",
+      "command": "clippy-driver",
       "args": [
         "-g",
         "--test",
