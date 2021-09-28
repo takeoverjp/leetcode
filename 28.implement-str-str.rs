@@ -18,16 +18,8 @@ impl Solution {
             return -1;
         }
         for i in 0..(hlen - nlen + 1) {
-            if haystack.chars().nth(i) != needle.chars().next() {
-                continue;
-            }
-            for (j, nc) in needle.chars().enumerate() {
-                if haystack.chars().nth(i + j).unwrap() != nc {
-                    break;
-                }
-                if j == nlen - 1 {
-                    return i as i32;
-                }
+            if haystack[i..i + nlen] == needle {
+                return i as i32;
             }
         }
         -1
