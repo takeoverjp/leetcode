@@ -11,22 +11,30 @@ use std::cmp::Ordering;
 
 impl Solution {
     pub fn my_sqrt(x: i32) -> i32 {
+        if x == 0 {
+            return 0;
+        }
+        let mut left = 1;
+        let mut right = 46341; // ceil(sqrt(i32.MAX))
         let x: i64 = x.into();
-        for i in 0i32.. {
-            let pow: i64 = (i as i64) * (i as i64);
+        loop {
+            let mid: i64 = (left + right) / 2;
+            let pow: i64 = mid * mid;
             match x.cmp(&pow) {
                 Ordering::Greater => {
-                    continue;
-                }
-                Ordering::Equal => {
-                    return i;
+                    if (mid + 1) * (mid + 1) > x {
+                        return mid as i32;
+                    }
+                    left = mid + 1;
                 }
                 Ordering::Less => {
-                    return i - 1;
+                    right = mid - 1;
+                }
+                Ordering::Equal => {
+                    return mid as i32;
                 }
             }
         }
-        -1
     }
 }
 // @lc code=end
