@@ -15,7 +15,7 @@
         "-Wall",
         "-fsanitize=address,undefined",
         "-o",
-        "a.out",
+        "test",
         "${file}"
       ],
       "group": {
@@ -26,11 +26,8 @@
     {
       "label": "test",
       "type": "shell",
-      "command": "./a.out",
-      "group": {
-        "kind": "test",
-        "isDefault": true
-      },
+      "command": "./test",
+      "group": "test",
       "dependsOn": "build",
       "problemMatcher": []
     },
@@ -60,8 +57,11 @@
     {
       "label": "test rust",
       "type": "shell",
-      "command": "./test",
-      "group": "test",
+      "command": "RUST_BACKTRACE=1 ./test",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
       "dependsOn": "build rust",
       "problemMatcher": []
     },
