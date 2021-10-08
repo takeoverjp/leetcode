@@ -10,14 +10,13 @@ struct Solution;
 impl Solution {
     pub fn max_sub_array(nums: Vec<i32>) -> i32 {
         // Kadane's Algorythm
-        let mut current_max: i64 = i32::MIN.into();
-        let mut global_max: i64 = i32::MIN.into();
-        for num in nums {
-            let num: i64 = num.into();
-            current_max = std::cmp::max(current_max + num, num);
-            global_max = std::cmp::max(global_max, current_max);
+        let (mut current_max, mut global_max) = (nums[0], nums[0]);
+        for num in nums.iter().skip(1) {
+            let num = *num;
+            current_max = std::cmp::max(num, current_max + num);
+            global_max = global_max.max(current_max);
         }
-        global_max as i32
+        global_max
     }
 }
 // @lc code=end
