@@ -53,21 +53,20 @@ macro_rules! list_node {
 //   }
 // }
 impl Solution {
-    pub fn delete_duplicates(mut head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-        let mut last = &mut head;
-        while last.is_some() {
-            let last_val = last.as_ref().unwrap().val;
-            // println!("@@@ {}, {:?}", last_val, last);
-            while last.as_ref().unwrap().next.is_some()
-                && last.as_ref().unwrap().next.as_ref().unwrap().val == last_val
-            {
-                // println!("@@@@@ {}, {:?}", last_val, last);
-                last.as_mut().unwrap().next =
-                    last.as_mut().unwrap().next.as_mut().unwrap().next.clone();
-            }
-            last = &mut last.as_mut().unwrap().next;
+    pub fn delete_duplicates(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+        if head.is_none() {
+            return None;
         }
-        head
+        let mut h = head;
+        let mut p1 = h.as_mut().unwrap();
+        while let Some(p2) = p1.next.as_mut() {
+            if p1.val == p2.val {
+                p1.next = p2.next.take();
+            } else {
+                p1 = p1.next.as_mut().unwrap();
+            }
+        }
+        h
     }
 }
 // @lc code=end
