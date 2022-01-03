@@ -13,15 +13,9 @@ using namespace std;
 class Solution {
  public:
   bool canBeEqual(vector<int>& target, vector<int>& arr) {
-    map<int, int> tmap;
-    map<int, int> amap;
-    for (auto num : target) {
-      tmap[num]++;
-    }
-    for (auto num : arr) {
-      amap[num]++;
-    }
-    return tmap == amap;
+    unordered_multiset<int> tset(target.begin(), target.end());
+    unordered_multiset<int> aset(arr.begin(), arr.end());
+    return tset == aset;
   }
 };
 // @lc code=end
