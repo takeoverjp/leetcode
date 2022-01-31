@@ -17,21 +17,10 @@ class Solution {
     for (const auto num : nums) {
       counts[num]++;
     }
-    vector<pair<int, int>> vcounts;
-    for (const auto& pair : counts) {
-        vcounts.emplace_back(pair.first, pair.second);
-    }
-
-    sort(vcounts.begin(), vcounts.end(), [](const auto& lhs, const auto& rhs) {
-      return (lhs.second == rhs.second) ? (lhs.first > rhs.first)
-                                        : (lhs.second < rhs.second);
+    sort(begin(nums), end(nums), [&counts](const auto lhs, const auto rhs) {
+      return (counts[lhs] == counts[rhs]) ? (lhs > rhs)
+                                        : (counts[lhs] < counts[rhs]);
     });
-    int index = 0;
-    for (const auto& pair : vcounts) {
-      for (int i = 0; i < pair.second; i++) {
-        nums[index++] = pair.first;
-      }
-    }
     return nums;
   }
 };
