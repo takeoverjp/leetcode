@@ -20,9 +20,16 @@ class Solution {
       return 0;
     }
     for (int i : sandwiches) {
-      i ? (one_students--) : (zero_students--);
-      if (!zero_students || !one_students) {
-        return one_students + zero_students;
+      if (i) {
+        if (!one_students) {
+          return one_students + zero_students;
+        }
+        one_students--;
+      } else {
+        if (!zero_students) {
+          return one_students + zero_students;
+        }
+        zero_students--;
       }
     }
     return 0;
@@ -39,5 +46,9 @@ int main() {
   students = {1, 1, 1, 0, 0, 1};
   sandwitches = {1, 0, 0, 0, 1, 1};
   ASSERT_EQ(s.countStudents(students, sandwitches), 3);
+  students = {0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1};
+  sandwitches = {1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0};
+  ASSERT_EQ(s.countStudents(students, sandwitches), 1);
+
   return 0;
 }
