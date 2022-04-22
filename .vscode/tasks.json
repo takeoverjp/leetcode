@@ -18,16 +18,16 @@
         "test",
         "${file}"
       ],
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
+      "group": "build",
     },
     {
       "label": "test",
       "type": "shell",
       "command": "./test",
-      "group": "test",
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
       "dependsOn": "build",
       "problemMatcher": []
     },
@@ -51,7 +51,10 @@
         "test",
         "${file}"
       ],
-      "group": "build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
       "dependsOn": "fmt rust"
     },
     {
