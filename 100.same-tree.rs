@@ -75,39 +75,23 @@ impl TreeNode {
 use std::cell::RefCell;
 use std::rc::Rc;
 impl Solution {
+    fn compare(p: &Option<Rc<RefCell<TreeNode>>>, q: &Option<Rc<RefCell<TreeNode>>>) -> bool {
+        match (p, q) {
+            (Some(p), Some(q)) => {
+                let (p, q) = (p.borrow(), q.borrow());
+                p.val == q.val
+                    && Solution::compare(&p.left, &q.left)
+                    && Solution::compare(&p.right, &q.right)
+            }
+            (None, None) => true,
+            _ => false,
+        }
+    }
     pub fn is_same_tree(
         p: Option<Rc<RefCell<TreeNode>>>,
         q: Option<Rc<RefCell<TreeNode>>>,
     ) -> bool {
-        if p.is_none() {
-            if q.is_none() {
-                return true;
-            } else {
-                return false;
-            }
-        } else if q.is_none() {
-            return false;
-        } else {
-            if (*p.as_ref().unwrap()).borrow().val != (*q.as_ref().unwrap()).borrow().val {
-                return false;
-            }
-
-            if !Solution::is_same_tree(
-                (*p.as_ref().unwrap()).borrow().left.clone(),
-                (*q.as_ref().unwrap()).borrow().left.clone(),
-            ) {
-                return false;
-            }
-
-            if !Solution::is_same_tree(
-                (*p.as_ref().unwrap()).borrow().right.clone(),
-                (*q.as_ref().unwrap()).borrow().right.clone(),
-            ) {
-                return false;
-            }
-
-            return true;
-        }
+        Solution::compare(&p, &q)
     }
 }
 // @lc code=end
