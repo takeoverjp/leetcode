@@ -76,15 +76,15 @@ use std::cell::RefCell;
 use std::rc::Rc;
 impl Solution {
     pub fn preorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
-        let mut node_stack = vec![];
+        let mut node_stack = Vec::<Rc<RefCell<TreeNode>>>::new();
         let mut ret = vec![];
         let mut curr = root;
-        while (!curr.is_none()) || (node_stack.len() > 0) {
+        while curr.is_some() || !node_stack.is_empty() {
             match curr {
-                Some(ref curr2) => {
-                    ret.push(curr2.borrow().val);
-                    node_stack.push(curr2.clone());
-                    curr = curr2.clone().borrow().left.clone();
+                Some(ref node) => {
+                    ret.push(node.borrow().val);
+                    node_stack.push(node.clone());
+                    curr = node.clone().borrow().left.clone();
                 }
                 None => {
                     let node = node_stack.pop();
