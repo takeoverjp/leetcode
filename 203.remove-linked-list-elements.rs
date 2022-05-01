@@ -19,14 +19,11 @@ impl ListNode {
     }
 }
 
-use std::cell::RefCell;
-use std::rc::Rc;
-
 #[derive(Debug, PartialEq, Eq)]
 pub struct TreeNode {
     pub val: i32,
-    pub left: Option<Rc<RefCell<TreeNode>>>,
-    pub right: Option<Rc<RefCell<TreeNode>>>,
+    pub left: Option<std::rc::Rc<std::cell::RefCell<TreeNode>>>,
+    pub right: Option<std::rc::Rc<std::cell::RefCell<TreeNode>>>,
 }
 
 impl TreeNode {
@@ -42,12 +39,15 @@ impl TreeNode {
 
 #[macro_export]
 macro_rules! list_node {
+    () => {
+        None
+    };
     ( $x:expr,$( $y:expr ),* ) => {
         {
             let mut head = Some(Box::new(ListNode::new($x)));
             let mut tail = &mut head;
             $(
-                let mut node = Some(Box::new(ListNode::new($y)));
+                let node = Some(Box::new(ListNode::new($y)));
                 tail.as_mut().unwrap().next = node;
                 tail = &mut tail.as_mut().unwrap().next;
             )*
@@ -91,6 +91,7 @@ impl Solution {
 // @lc code=end
 
 #[test]
+#[allow(unused_assignments)]
 fn test1() {
     assert_eq!(
         Solution::remove_elements(list_node![1, 2, 6, 3, 4, 5, 6], 6),
@@ -100,10 +101,14 @@ fn test1() {
 
 #[test]
 fn test2() {
-    assert_eq!(Solution::remove_elements(None, 1), None);
+    assert_eq!(Solution::remove_elements(list_node![], 1), list_node![]);
 }
 
 #[test]
+#[allow(unused_assignments)]
 fn test3() {
-    assert_eq!(Solution::remove_elements(list_node![7, 7, 7, 7], 7), None);
+    assert_eq!(
+        Solution::remove_elements(list_node![7, 7, 7, 7], 7),
+        list_node![]
+    );
 }
