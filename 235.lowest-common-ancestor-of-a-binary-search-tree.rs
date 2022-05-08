@@ -14,6 +14,7 @@ pub struct ListNode {
 
 impl ListNode {
     #[inline]
+    #[allow(dead_code)]
     fn new(val: i32) -> Self {
         ListNode { next: None, val }
     }
@@ -83,7 +84,16 @@ impl Solution {
         p: Option<Rc<RefCell<TreeNode>>>,
         q: Option<Rc<RefCell<TreeNode>>>,
     ) -> Option<Rc<RefCell<TreeNode>>> {
-        root
+        let root_val = root.as_ref().unwrap().borrow().val;
+        let p_val = p.as_ref().unwrap().borrow().val;
+        let q_val = q.as_ref().unwrap().borrow().val;
+        if root_val < p_val && root_val < q_val {
+            Solution::lowest_common_ancestor(root.unwrap().borrow().right.clone(), p, q)
+        } else if root_val > p_val && root_val > q_val {
+            Solution::lowest_common_ancestor(root.unwrap().borrow().left.clone(), p, q)
+        } else {
+            root
+        }
     }
 }
 // @lc code=end
@@ -132,10 +142,14 @@ fn test2() {
         left: Some(Rc::new(RefCell::new(TreeNode::new(7)))),
         right: Some(Rc::new(RefCell::new(TreeNode::new(9)))),
     })));
-    root.right = right.clone();
+    root.right = right;
     let root = Some(Rc::new(RefCell::new(root)));
     assert_eq!(
-        Solution::lowest_common_ancestor(root, left.clone(), right),
+        Solution::lowest_common_ancestor(
+            root,
+            left.clone(),
+            left.clone().unwrap().borrow().right.clone()
+        ),
         left
     );
 }
