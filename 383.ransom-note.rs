@@ -58,12 +58,11 @@ macro_rules! list_node {
 
 // @lc code=start
 impl Solution {
-    pub fn can_construct(ransom_note: String, magazine: String) -> bool {
-        let mut magazine = magazine.chars().collect::<Vec<char>>();
+    pub fn can_construct(ransom_note: String, mut magazine: String) -> bool {
         for c in ransom_note.chars() {
-            match magazine.iter().find(|&&x| x == c) {
-                Some(&mut x) => {
-                    *x = 'X';
+            match magazine.find(c) {
+                Some(i) => {
+                    magazine.remove(i);
                 }
                 None => {
                     return false;
