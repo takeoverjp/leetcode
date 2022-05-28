@@ -59,19 +59,11 @@ macro_rules! list_node {
 // @lc code=start
 impl Solution {
     pub fn find_the_difference(s: String, t: String) -> char {
-        let mut map: std::collections::HashMap<char, i32> = std::collections::HashMap::new();
-        for c in t.chars() {
-            *map.entry(c).or_insert(0) += 1;
-        }
-        for c in s.chars() {
-            *map.entry(c).or_insert(0) -= 1;
-        }
-        for (c, i) in map {
-            if i > 0 {
-                return c;
-            }
-        }
-        '\0'
+
+        s.as_bytes()
+            .iter()
+            .chain(t.as_bytes())
+            .fold(0, |acc, &c| acc ^ c) as char
     }
 }
 // @lc code=end
