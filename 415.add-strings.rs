@@ -59,27 +59,27 @@ macro_rules! list_node {
 // @lc code=start
 impl Solution {
     pub fn add_strings(num1: String, num2: String) -> String {
-        let len1 = num1.len() as i32;
-        let len2 = num2.len() as i32;
-        let max_len = i32::max(len1, len2);
+        let len1 = num1.len();
+        let len2 = num2.len();
+        let max_len = usize::max(len1, len2);
         let mut carry = 0;
-        let mut ret = "".to_string();
-        let mut i = 0;
+        let mut ret = Vec::with_capacity(max_len + 1);
+        let mut i: usize = 0;
         while i < max_len || carry > 0 {
             let mut dig1 = 0;
             let mut dig2 = 0;
             if i < len1 {
-                dig1 = num1.chars().nth((len1 - i - 1) as usize).unwrap() as u8 - b'0';
+                dig1 = num1.chars().nth(len1 - i - 1).unwrap() as u8 - b'0';
             }
             if i < len2 {
-                dig2 = num2.chars().nth((len2 - i - 1) as usize).unwrap() as u8 - b'0';
+                dig2 = num2.chars().nth(len2 - i - 1).unwrap() as u8 - b'0';
             }
             let sum = dig1 + dig2 + carry;
             carry = sum / 10;
-            ret = format!("{}{}", ((sum % 10) + b'0') as char, ret);
+            ret.push((b'0' + sum % 10) as char);
             i += 1;
         }
-        ret
+        ret.iter().rev().collect()
     }
 }
 // @lc code=end
