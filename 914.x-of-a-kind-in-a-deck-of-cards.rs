@@ -61,13 +61,30 @@ impl Solution {
     pub fn has_groups_size_x(deck: Vec<i32>) -> bool {
         let mut counts = std::collections::HashMap::<i32, i32>::new();
         for num in deck {
-            if counts.contains_key(num) {
-                counts[num] += 1;
-            } else {
-                counts[num] = 1;
+            match counts.get_mut(&num) {
+                Some(x) => *x += 1,
+                None => {
+                    counts.insert(num, 1);
+                }
             }
         }
-        true
+        let mut min_num = i32::MAX;
+        for (_key, val) in counts.iter() {
+            min_num = min_num.min(*val);
+        }
+        for i in 2..=min_num {
+            let mut is_ok = true;
+            for (_key, val) in counts.iter() {
+                if *val % i != 0 {
+                    is_ok = false;
+                    break;
+                }
+            }
+            if is_ok {
+                return true;
+            }
+        }
+        false
     }
 }
 // @lc code=end
