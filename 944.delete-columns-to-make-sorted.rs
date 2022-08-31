@@ -66,6 +66,7 @@ impl Solution {
             for y in 1..row_num {
                 if strs[y].chars().nth(x).unwrap() < strs[y - 1].chars().nth(x).unwrap() {
                     ret += 1;
+                    break;
                 }
             }
         }
