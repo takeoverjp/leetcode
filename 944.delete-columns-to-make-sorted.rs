@@ -93,6 +93,10 @@ fn test2() {
         Solution::min_deletion_size(vec!["a".to_string(), "b".to_string()]),
         0
     );
+}
+
+#[test]
+fn test3() {
     assert_eq!(
         Solution::min_deletion_size(vec![
             "zyx".to_string(),
