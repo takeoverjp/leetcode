@@ -63,15 +63,15 @@ impl Solution {
         let mut opened = 0;
         for c in s.chars() {
             if c == '(' {
-                opened += 1;
-                if opened > 1 {
-                    ret += &c.to_string();
-                }
-            } else {
-                opened -= 1;
                 if opened > 0 {
-                    ret += &c.to_string();
+                    ret.push(c);
                 }
+                opened += 1;
+            } else {
+                if opened > 1 {
+                    ret.push(c);
+                }
+                opened -= 1;
             }
         }
         ret
