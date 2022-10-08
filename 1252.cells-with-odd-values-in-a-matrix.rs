@@ -59,22 +59,16 @@ macro_rules! list_node {
 // @lc code=start
 impl Solution {
     pub fn odd_cells(m: i32, n: i32, indices: Vec<Vec<i32>>) -> i32 {
-        let mut rows = Vec::<bool>::new();
-        rows.resize(n as usize, false);
-        let mut cols = Vec::<bool>::new();
-        cols.resize(m as usize, false);
+        let mut rows = vec![0; m as usize];
+        let mut cols = vec![0; n as usize];
         for idx in &indices {
-            rows[idx[0] as usize] = !rows[idx[0] as usize];
-            cols[idx[1] as usize] = !cols[idx[1] as usize];
+            rows[idx[0] as usize] += 1;
+            cols[idx[1] as usize] += 1;
         }
         let mut ret = 0;
-        for i in 0..n {
-            for j in 0..m {
-                ret += if rows[i as usize] ^ cols[j as usize] {
-                    1
-                } else {
-                    0
-                };
+        for row in 0..m {
+            for col in 0..n {
+                ret += (rows[row as usize] + cols[col as usize]) % 2;
             }
         }
         ret
