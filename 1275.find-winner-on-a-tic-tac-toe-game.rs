@@ -61,27 +61,17 @@ impl Solution {
     pub fn tictactoe(moves: Vec<Vec<i32>>) -> String {
         let mut a = [0; 8];
         let mut b = [0; 8];
-        for i in 0..moves.len() {
-            let r = moves[i][0];
-            let c = moves[i][1];
-            if i % 2 == 0 {
-                a[r as usize] += 1;
-                a[(c + 3) as usize] += 1;
-                if r == c {
-                    a[6] += 1;
-                }
-                if r == (2 - c) {
-                    a[7] += 1;
-                }
-            } else {
-                b[r as usize] += 1;
-                b[(c + 3) as usize] += 1;
-                if r == c {
-                    b[6] += 1;
-                }
-                if r == (2 - c) {
-                    b[7] += 1;
-                }
+        for (i, m) in moves.iter().enumerate() {
+            let r = m[0];
+            let c = m[1];
+            let player = if i % 2 == 0 { &mut a } else { &mut b };
+            player[r as usize] += 1;
+            player[(c + 3) as usize] += 1;
+            if r == c {
+                player[6] += 1;
+            }
+            if r == (2 - c) {
+                player[7] += 1;
             }
         }
         for i in 0..8 {
