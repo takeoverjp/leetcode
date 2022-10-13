@@ -59,7 +59,14 @@ macro_rules! list_node {
 // @lc code=start
 impl Solution {
     pub fn find_special_integer(arr: Vec<i32>) -> i32 {
-        0
+        let n = arr.len();
+        let t = n / 4;
+        for i in 0..(n - t) {
+            if arr[i] == arr[i + t] {
+                return arr[i];
+            }
+        }
+        -1
     }
 }
 // @lc code=end
