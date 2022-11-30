@@ -62,8 +62,33 @@ impl Solution {
         let date = date.chars().collect::<Vec<char>>();
         if date.len() == 13 {
             date[9..13].iter().collect::<String>()
+                + "-"
+                + Solution::conv_mon(&date[5..8].iter().collect::<String>())
+                + "-"
+                + &date[0..2].iter().collect::<String>()
         } else {
             date[8..12].iter().collect::<String>()
+                + "-"
+                + Solution::conv_mon(&date[4..7].iter().collect::<String>())
+                + "-0"
+                + &date[0..1].iter().collect::<String>()
+        }
+    }
+
+    fn conv_mon(mon: &str) -> &str {
+        match mon {
+            "Jan" => "01",
+            "Feb" => "02",
+            "Mar" => "03",
+            "Apr" => "04",
+            "May" => "05",
+            "Jun" => "06",
+            "Jul" => "07",
+            "Aug" => "08",
+            "Sep" => "09",
+            "Oct" => "10",
+            "Nov" => "11",
+            _ => "12",
         }
     }
 }
