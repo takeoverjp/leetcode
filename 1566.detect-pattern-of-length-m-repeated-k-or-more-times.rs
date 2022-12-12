@@ -61,10 +61,12 @@ impl Solution {
     pub fn contains_pattern(arr: Vec<i32>, m: i32, k: i32) -> bool {
         let k = k as usize;
         let m = m as usize;
-        let j = m * k;
-        for i in 0..(arr.len() - j + 1) {
-            let piece = &arr[i..(i + k)];
-            if piece.repeat(m) == &arr[i..(i + j)] {
+        if m * k > arr.len() {
+            return false;
+        }
+        for i in 0..(arr.len() - m * k + 1) {
+            let piece = &arr[i..(i + m)];
+            if piece.repeat(k) == arr[i..(i + m * k)] {
                 return true;
             }
         }
@@ -90,4 +92,14 @@ fn test2() {
 #[test]
 fn test3() {
     assert!(!Solution::contains_pattern(vec![1, 2, 1, 2, 1, 3], 2, 3));
+}
+
+#[test]
+fn test4() {
+    assert!(!Solution::contains_pattern(vec![2, 2, 2, 2], 2, 3));
+}
+
+#[test]
+fn test5() {
+    assert!(!Solution::contains_pattern(vec![1, 2], 1, 2));
 }
