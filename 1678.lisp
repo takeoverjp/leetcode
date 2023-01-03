@@ -1,0 +1,16 @@
+(defun interpret-r (command index)
+  (cond ((>= index (length command)) "")
+        ((char= (char command index) #\G)
+          (format nil "G~A" (interpret-r command (+ index 1))))
+        ((and (char= (char command index) #\() (char= (char command (+ index 1)) #\)))
+          (format nil "o~A" (interpret-r command (+ index 2))))
+        (t
+          (format nil "al~A" (interpret-r command (+ index 4))))))
+(defun interpret (command)
+  (interpret-r command 0))
+
+(ql:quickload "fiveam")
+(5am:test test-1 (5am:is (string= (interpret "G()(al)") "Goal")))
+(5am:test test-2 (5am:is (string= (interpret "G()()()()(al)") "Gooooal")))
+(5am:test test-3 (5am:is (string= (interpret "(al)G(al)()()G") "alGalooG")))
+(5am:run!)
